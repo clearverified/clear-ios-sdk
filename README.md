@@ -21,9 +21,11 @@ Before getting started, make sure that you have access to the following credenti
 
 1. Open Xcode project
 2. Navigate to `File`->`Add Packages`
-2. Add package URL https://github.com/clearsecureidentity/clear-ios-sdk.git
-3. Select dependency rule and project. `Up to Next Major Version` is recommended
-4. Select `Add Package`
+3. Add package URL https://github.com/clearsecureidentity/clear-ios-sdk.git
+4. Select dependency rule and project. `Up to Next Major Version` is recommended
+5. Select `Add Package`
+6. Ensure `ClearMeSDK` is selected and added to the correct target
+7. Select `Add Package` again
 
 #### Manual
 
@@ -36,7 +38,7 @@ Before getting started, make sure that you have access to the following credenti
 
 ## Class Structure
 
-The SDK exposes the following public classes:
+The SDK exposes the following public classes. Details of each are described in the `Usage` section below.
 
 - `ClearSDK`
 - `ClearEnvironment`
@@ -48,44 +50,33 @@ The SDK exposes the following public classes:
 - `ClearVerificationError`
 - `ClearVerificationView`
 
-The details of each are described in the `Usage` section below.
-
 ## Usage
 
 #### 1. Initialize SDK
 
-`ClearSDK` is the root class of the SDK. A host partner app should first initialize the SDK using the **client-id** provided to you by CLEAR during onboarding:
+`ClearSDK` is the root class of the SDK. An application must initialize this class using the `Client ID` and `API Key` provided by CLEAR during onboarding.
 
 ```swift
-/// A top level class used for managing CLEAR's SDK requirements.
-public final class ClearSDK {
-    /// Use this initialization method to setup CLEAR's top level dependencies.
-    /// - Parameters:
-    /// - clientId: client identifier provided by CLEAR at the time of onboarding.
-    /// - apiKey: api key provided by CLEAR at the time of onboarding.
-    /// - environment: an optional type of `ClearEnvironment` that specifies which remote service the SDK should use. Will default to `ClearEnvironment.production` if not explicitly specified.
-    static func initialize(clientId: String, apiKey: String, environment: ClearEnvironment = .production)
-}
+ClearSDK.initialize(clientId: CLIENT_ID, apiKey: API_KEY, environment: .integration)
 ```
 
 ###### ClearEnvironment
 
-The SDK can be configured to work in a variety of environments which can be specified while initializing the SDK. `ClearEnvironment.integration` should be used during development as well as for the purposes of debugging and integration testing, while `ClearEnvironment.production` should be used for active production releases of your mobile application.
+The SDK uses two environments for different purposes.
+* `integration`: Used during development, debugging and integration testing.
+* `production` Used for active application releases. Change initialization to use this environment after proper usage is verified.
+
+#### 2. Create an instance of ClearVerificationView
+
+`ClearVerificationView` is a public UI component that automatically trigger the verification flow when tapped.
 
 ```swift
-/// Environments declared for the SDK
-public enum ClearEnvironment {
-    /// For development and debugging
-    case integration
-
-    /// For live public releases
-    case production
-}
+let clearView = ClearVerificationView(delegate: self)
 ```
 
-#### 2. Conform to the ClearVerificationSessionDelegate Protocol
+#### 3. Conform to the ClearVerificationSessionDelegate Protocol
 
-After proper initialization, you are responsible for creating an object in your application that both provides configuration details and also handles the results of a verification session. You do this by conforming to the `ClearVerificationSessionDelegate` protocol, which has the following requirements:
+The `ClearVerificationSessionDelegate` protocol provides configuration details to `ClearVerificationView`, and handles the results of a verification sessions.
 
 ```swift
 /// A set of methods which provides data required to set-up a verification flow and returns the results of a completed session.
@@ -154,19 +145,6 @@ public enum ClearVerificationIdentifierInput {
 3. `.staticEmail(Email("hi@clearme.com"))`: specifies a first-time identity verification, presenting a pre-populated non-editable email input field (i.e. "hi@clearme.com")
 4. `.suppressedEmail(Email("hi@clearme.com"))`: specifies a first-time identity verification, though bypassing the email collection screen to the camera screen for face capture
 
-```swift
-public enum ClearVerificationEmailInput {
-    /// Represents an editable email input
-    /// pass `nil` in case there's no pre-filled input
-    case editableEmail(Email?)
-
-    /// Represents a non-editable email input
-    case staticEmail(Email)
-
-    /// Represents a silent "suppressed" email input
-    case suppressedEmail(Email)
-}
-```
 ###### ClearVerificationSuccess
 
 A `ClearVerificationError` represents a successful verification result that includes an `authCode` and a `memberAsid`. The `memberAsid` is an app-scoped member identifier that can be used instead of an email for a returning user flow. The `authCode` can be exchanged for an access token in order to request additional information about a CLEAR member.
@@ -204,24 +182,6 @@ public enum ClearVerificationError: Error {
 }
 ```
 
-#### 3. Create an instance of ClearVerificationView
-
-`ClearVerificationView` is a public UI component that automatically trigger the verification flow when tapped.
-
-```swift
-/// ClearVerificationView is the entry point to the user verification flow, tapping it will start a verification flow.
-public final class ClearVerificationView: UIView {
-
-    /// The verification view delegate object which provides and returns data required to support a verification flow.
-    public init(delegate: ClearVerificationSessionDelegate?) { ... }
-}
-
-/// Builder of ClearVerificationView
-let view = ClearVerificationView(
-    delegate: self
-)
-```
-
 #### 4. Request Authorization for Camera Usage
 
 The SDK uses the device camera to validate members. Configure your App's `Info.plist` file to include the `NSCameraUsageDescription`. Provide a meaningful message that explains why your application is requesting this access.
@@ -230,9 +190,9 @@ The SDK uses the device camera to validate members. Configure your App's `Info.p
 
 #### 5. Add App Attest Capability/Entitlement
 
-The SDK uses Apple's [DeviceCheck](https://developer.apple.com/documentation/devicecheck/establishing_your_app_s_integrity) Framework to reduce fraudulent use of services by managing device state and asserting app integrity.
+The SDK uses Apple's [DeviceCheck](https://developer.apple.com/documentation/devicecheck/establishing_your_app_s_integrity) Framework to reduce fraudulent use of services.
 
-For **iOS 14+** deployment targets perform the following:
+**iOS 14+** deployment targets must perform the following:
 
 1. Add the capability `App Attest` to your app in the developer portal
 
@@ -251,9 +211,7 @@ For **iOS 14+** deployment targets perform the following:
    5. Select the `.entitlements` file to view
    6. Update the value of `App Attest Environment` from `development` -> `production`  
 
-Step #2 is required for `App Attestation` to run successfully for `Debug` environment/schemes
-
-More about [Device Check Framework](https://developer.apple.com/documentation/devicecheck), [App Attest Service](https://developer.apple.com/documentation/devicecheck/dcappattestservice) and [App Attest Environment](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_devicecheck_appattest-environment)
+Step #2 is required for `App Attestation` to run successfully for `Debug` environment/schemes. More about [Device Check Framework](https://developer.apple.com/documentation/devicecheck), [App Attest Service](https://developer.apple.com/documentation/devicecheck/dcappattestservice) and [App Attest Environment](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_devicecheck_appattest-environment)
 
 ## Sample Usage
 
