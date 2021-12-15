@@ -17,7 +17,7 @@ Before getting started, make sure that you have access to the following credenti
 
 ## Installation
 
-#### Swift Package Manager
+### Swift Package Manager
 
 1. Open Xcode project
 2. Navigate to `File`->`Add Packages`
@@ -27,7 +27,7 @@ Before getting started, make sure that you have access to the following credenti
 6. Ensure `ClearMeSDK` is selected and added to the correct target
 7. Select `Add Package` again
 
-#### Manual
+### Manual
 
 1. Navigate to the [releases page](https://github.com/clearsecureidentity/clear-ios-sdk/releases) on GitHub
 2. Find the desired release version (latest is recommended)
@@ -52,7 +52,7 @@ The SDK exposes the following public classes. Details of each are described in t
 
 ## Usage
 
-#### 1. Initialize SDK
+### 1. Initialize SDK
 
 `ClearSDK` is the root class of the SDK. An application must initialize this class using the `Client ID` and `API Key` provided by CLEAR during onboarding.
 
@@ -60,13 +60,13 @@ The SDK exposes the following public classes. Details of each are described in t
 ClearSDK.initialize(clientId: CLIENT_ID, apiKey: API_KEY, environment: .integration)
 ```
 
-###### ClearEnvironment
+##### ClearEnvironment
 
 The SDK uses two environments for different purposes.
 * `integration`: Used during development, debugging and integration testing.
 * `production` Used for active application releases. Change initialization to use this environment after proper usage is verified.
 
-#### 2. Create an instance of ClearVerificationView
+### 2. Create an instance of ClearVerificationView
 
 `ClearVerificationView` is a public UI component that automatically trigger the verification flow when tapped.
 
@@ -74,7 +74,7 @@ The SDK uses two environments for different purposes.
 let clearView = ClearVerificationView(delegate: self)
 ```
 
-#### 3. Conform to the ClearVerificationSessionDelegate Protocol
+### 3. Conform to the ClearVerificationSessionDelegate Protocol
 
 The `ClearVerificationSessionDelegate` protocol provides configuration details to `ClearVerificationView`, and handles the results of a verification sessions.
 
@@ -98,7 +98,7 @@ public protocol ClearVerificationSessionDelegate: AnyObject {
 }
 ```
 
-###### ClearVerificationUseCase
+##### ClearVerificationUseCase
 
 A `ClearVerificationUseCase` represents the variety of use-cases that your app can declare as the purpose for a given verification session. Since you can implement multiple session instances throughout your app, it is also possible to support more than one use case. Although it is only possible to have one use case for each session. Your `ClearVerificationSessionDelegate` should provide an intended use case, which will update the associated `ClearVerificationView` descriptive label to match the descriptive intent of that use case.
 
@@ -121,7 +121,7 @@ public enum ClearVerificationUseCase {
 }
 ```
 
-###### ClearVerificationIdentifierInput
+##### ClearVerificationIdentifierInput
 
 A `ClearVerificationIdentifierInput` represents the initial parameters that determine the entry point for an identity verification flow. As such, there are two ways a partner app can specify initial verification input:
 
@@ -136,7 +136,7 @@ public enum ClearVerificationIdentifierInput {
 }
 ```
 
-###### ClearVerificationEmailInput
+##### ClearVerificationEmailInput
 
 `ClearVerificationEmailInput` represents a variety of email configuration options required by the `ClearVerificationIdentifierInput` `.email()` option:
 
@@ -145,7 +145,7 @@ public enum ClearVerificationIdentifierInput {
 3. `.staticEmail(Email("hi@clearme.com"))`: specifies a first-time identity verification, presenting a pre-populated non-editable email input field (i.e. "hi@clearme.com")
 4. `.suppressedEmail(Email("hi@clearme.com"))`: specifies a first-time identity verification, though bypassing the email collection screen to the camera screen for face capture
 
-###### ClearVerificationSuccess
+##### ClearVerificationSuccess
 
 A `ClearVerificationError` represents a successful verification result that includes an `authCode` and a `memberAsid`. The `memberAsid` is an app-scoped member identifier that can be used instead of an email for a returning user flow. The `authCode` can be exchanged for an access token in order to request additional information about a CLEAR member.
 
@@ -159,7 +159,7 @@ public struct ClearVerificationSuccess {
 }
 ```
 
-###### ClearVerificationError
+##### ClearVerificationError
 
 A `ClearVerificationError` represents the various errors that can be returned from a session when a verification is unsuccessful.
 
@@ -182,13 +182,13 @@ public enum ClearVerificationError: Error {
 }
 ```
 
-#### 4. Request Authorization for Camera Usage
+### 4. Request Authorization for Camera Usage
 
 The SDK uses the device camera to validate members. Configure your App's `Info.plist` file to include the `NSCameraUsageDescription`. Provide a meaningful message that explains why your application is requesting this access.
 
 **Skipping this step will result in a crash.**
 
-#### 5. Add App Attest Capability/Entitlement
+### 5. Add App Attest Capability/Entitlement
 
 The SDK uses Apple's [DeviceCheck](https://developer.apple.com/documentation/devicecheck/establishing_your_app_s_integrity) Framework to reduce fraudulent use of services.
 
