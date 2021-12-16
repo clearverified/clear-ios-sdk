@@ -10,7 +10,7 @@ Bring the power of CLEAR to your iOS application! The SDK handles both UI and un
 
 ## Getting Started
 
-Before getting started, make sure that you have access to the following credentials provided to you by CLEAR during onboarding:
+To set up a partnership, reach out to developersupport@clearme.com. The following credentials must be provided to you by CLEAR during onboarding to use the SDK:
 
 * Client ID
 * API Key
@@ -262,3 +262,7 @@ class VerificationViewController: UIViewController, ClearVerificationSessionDele
 ```
 
 If Interface Builder is not used, simply add the instance of `ClearVerificationView` as a subview and set the constraints as required.
+
+## License
+
+Coming soon...
