@@ -13,10 +13,10 @@ let package = Package(
     dependencies: [
     ],
     targets: [
-        .binaryTarget(name: "ClearMeSDK", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.6/ClearMeSDK.xcframework.zip", checksum: "eb7e9b829b4cc2e173fb6b9eca77e8c04a5377450f10022918567e5e07c31994"),
-        .binaryTarget(name: "ClearFaceCapture", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.6/ClearFaceCapture.xcframework.zip", checksum: "56650f9586056d01058edee2c80f60f03787704a9b0905ff5855ff671e27f0ec"),
-        .binaryTarget( name: "TrustKit", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.6/TrustKit.xcframework.zip", checksum: "e7655b0b1f68a3785ea6c2504de68abcda9e695c56c6e1c3407da1e8cb5658bc"),
-        .binaryTarget(name: "ClearUI", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.6/ClearUI.xcframework.zip", checksum: "180dba8550eabd77f74fa10f3ffe26ed8d00bc00259e8345d14ea662f5fae048"),
-        .binaryTarget(name: "Lottie", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.6/Lottie.xcframework.zip", checksum: "14078276c5c0a5bcd367f1116c77312b34348cafd688c33a2755e20a9ef4f954")
+        .binaryTarget(name: "ClearMeSDK", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.7/ClearMeSDK.xcframework.zip", checksum: "f029946316e9ddf5f357f468a31bab6fcf81d6219d4b9c159bf1e780e23e009d"),
+        .binaryTarget(name: "ClearFaceCapture", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.7/ClearFaceCapture.xcframework.zip", checksum: "fc996c81ee5f30e3c73442fe8b0f04b2f9bf6949ce8e552504d66cfd0f142622"),
+        .binaryTarget( name: "TrustKit", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.7/TrustKit.xcframework.zip", checksum: "f069b5decea967fdecdf5399b564021f1f16c37e79252809fef83cb09a18a7f2"),
+        .binaryTarget(name: "ClearUI", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.7/ClearUI.xcframework.zip", checksum: "dd97eaee080e237e8127ec88def12d50a643a572e630571ae8f60c3bb8cb31f9"),
+        .binaryTarget(name: "Lottie", url: "https://github.com/clearsecureidentity/clear-ios-sdk/releases/download/0.10.7/Lottie.xcframework.zip", checksum: "38c56ffcbcd9974b65b03ee3c86fe5c44b0dc2afa8d10b337e0f5695d205797d")
     ]
 )
