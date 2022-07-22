@@ -4,9 +4,9 @@ Bring the power of CLEAR's web verification service to your iOS application!
 
 ## Requirements
 
-* Swift 5.0+
-* iOS 14.0+
-* Xcode 13.0+
+* Swift 5+
+* iOS 12+
+* Xcode 13+
 
 ## Getting Started
 
