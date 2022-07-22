@@ -37,15 +37,18 @@ To set up a partnership, reach out to developersupport@clearme.com. A `clientIde
 
 ### 1. Initialize the SDK
 
-`Clear` is the root class of the SDK. An application must initialize this class using a `Clear.Configuration` struct. This will usually happen in `AppDelegate` or `SceneDelegate`. The struct contains the following values:
+`Clear` is the root class of the SDK. An application must initialize this class using a `Clear.Configuration` struct. This will usually happen in `AppDelegate` or `SceneDelegate`. The struct contains the following required values:
 
 * `environment`: Set to `integration` while onboarding. Change to `production` after proper functionality is verified.
 * `clientIdentifier`: A client specific value given during onboarding.
 * `scope`: A space-delimited string of all desired user properties.
 
+Optional Values:
+* `callbackScheme`: Defaults to the bundle identifier of the client application. In most cases this will not change.
+
 ```swift
 // Initialize using an example scope.
-let configuration = Clear.Configuration(environment: .integration, clientIdentifier: CLIENT_IDENTIFIER, scope: "email given_name")
+let configuration = Clear.Configuration(environment: .integration, clientIdentifier: "my-client-id", scope: "email given_name")
 Clear.initialize(with: configuration)
 ```
 
