@@ -16,9 +16,9 @@ To set up a partnership, reach out to developersupport@clearme.com. A `clientIde
 
 ### Swift Package Manager
 
-1. Open your Xcode project.
+1. Open Xcode.
 2. Navigate to `File`->`Add Packages`.
-3. Add package URL https://github.com/clearsecureidentity/clear-ios-sdk.git.
+3. Add package https://github.com/clearsecureidentity/clear-ios-sdk.git.
 4. Select a dependency rule. `Up to Next Major Version` is recommended.
 5. Select `Add Package`.
 6. Ensure `Clear` is selected and added to the correct target.
@@ -26,18 +26,25 @@ To set up a partnership, reach out to developersupport@clearme.com. A `clientIde
 
 ### Manual
 
-1. Navigate to the [releases page](https://github.com/clearsecureidentity/clear-ios-sdk/releases) on GitHub.
-2. Locate the latest release version.
-3. Select and download `Clear.xcframework`.
-4. Add the framework to your Xcode project. Be sure to check `Copy items if needed`.
-5. Ensure the framework is visible in `Build Phases`->`Link Binary With Libraries`.
-6. Add the framework to `Build Phases`->`Embed Frameworks`.
+1. Navigate to [releases](https://github.com/clearsecureidentity/clear-ios-sdk/releases).
+2. Select the latest version.
+3. Download `Clear.xcframework.zip`.
+4. Unzip the framework.
+5. Add the framework to your Xcode project. Be sure to check `Copy items if needed`.
+6. Ensure the framework is visible in `Build Phases`->`Link Binary With Libraries`.
+7. Add the framework to `Build Phases`->`Embed Frameworks`.
 
 ## Usage
 
-### 1. Initialize the SDK
+### 1. Import the Module
 
-`Clear` is the root class of the SDK. An application must initialize this class using a `Clear.Configuration` struct. This will usually happen in `AppDelegate` or `SceneDelegate`. The struct contains the following required values:
+```swift
+import Clear
+```
+
+### 2. Initialize the Root Class
+
+`CLEAR` is the root class of the SDK. An application must initialize this using a `CLEAR.Configuration` struct before using any functionality. This will usually happen in `AppDelegate` or `SceneDelegate`. The struct contains the following required values:
 
 * `environment`: Set to `integration` while onboarding. Change to `production` after proper functionality is verified.
 * `clientIdentifier`: A client specific value given during onboarding.
@@ -48,32 +55,32 @@ Optional Values:
 
 ```swift
 // Initialize using an example scope.
-let configuration = Clear.Configuration(environment: .integration, clientIdentifier: "my-client-id", scope: "email given_name")
-Clear.initialize(with: configuration)
+let configuration = CLEAR.Configuration(environment: .integration, clientIdentifier: "my-client-id", scope: "email given_name")
+CLEAR.initialize(with: configuration)
 ```
 
-### 2. Create a ClearVerificationView
+### 3. Create a VerificationView
 
-`ClearVerificationView` is a UI component that triggers the web verification process when tapped.
+`VerificationView` is a UI component that triggers the web verification process when tapped.
 
 ```swift
-// Initialize ClearVerificationView from inside a view controller.
-let verificationView = ClearVerificationView(delegate: self)
+// Initialize VerificationView from inside a view controller.
+let verificationView = VerificationView(delegate: self)
 view.addSubview(verificationView)
 ```
 
-### 3. Conform to the ClearVerificationDelegate Protocol
+### 4. Conform to VerificationDelegate
 
-`ClearVerificationDelegate` provides additional configuration details, and sends back the result of verification.
+`VerificationDelegate` provides additional configuration details, and sends back the result of verification.
 
 ```swift
-extension ViewController: ClearVerificationDelegate {
+extension ViewController: VerificationDelegate {
 
     /// The view controller that will launch the verification process.
     var hostViewController: UIViewController { self }
 
     /// Called when the verification process is complete.
-    func verificationDidComplete(withResult result: Result<Clear.Response, Clear.Error>) {
+    func verificationDidComplete(withResult result: Result<CLEAR.Response, CLEAR.Error>) {
 
         switch result {
         // Handle a successful result accordingly.
@@ -89,23 +96,23 @@ extension ViewController: ClearVerificationDelegate {
 
 ### Successful Verification
 
-After a successful verification, a `Clear.Response` struct is returned in the `verificationDidComplete(withResult:)` delegate method. This struct contains an `authorizationCode`, which can be used to request additional information about a CLEAR member.
+After a successful verification, a `CLEAR.Response` struct is returned in the `verificationDidComplete(withResult:)` delegate method. This struct contains an `authorizationCode`, which can be used to request additional information about a CLEAR member.
 
 ### Unsuccessful Verification
 
-After an unsuccessful verification, a `Clear.Error` enum is returned in the `verificationDidComplete(withResult:)` delegate method. This enum contains one of the possible error cases:
+After an unsuccessful verification, a `CLEAR.Error` enum is returned in the `verificationDidComplete(withResult:)` delegate method. This enum contains one of the possible error cases:
             
 * **cancelled**: The operation was cancelled.
 
-* **invalidConfiguration**: The configuration is invalid.
+* **invalidVerificationPath**: The configuration is invalid.
 
-* **invalidHostViewController**: A *hostViewController* must be supplied.
+* **missingHostViewController**: A *hostViewController* must be supplied.
 
 * **stateGenerationFailed**: Failed to generate a *state* value.
 
 * **sessionFailed**: Something has gone wrong with the session.
 
-* **missingRedirectUrl**: No redirect URL was found in the response.
+* **missingRedirectResponse**: No redirect URL was found in the response.
 
 * **missingAuthorizationCode**: The authorization code was not found.
 
