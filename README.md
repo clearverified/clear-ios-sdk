@@ -16,9 +16,9 @@ To set up a partnership, reach out to developersupport@clearme.com. A `clientIde
 
 ### Swift Package Manager
 
-1. Open your Xcode project.
+1. Open Xcode.
 2. Navigate to `File`->`Add Packages`.
-3. Add package URL https://github.com/clearsecureidentity/clear-ios-sdk.git.
+3. Add package https://github.com/clearsecureidentity/clear-ios-sdk.git.
 4. Select a dependency rule. `Up to Next Major Version` is recommended.
 5. Select `Add Package`.
 6. Ensure `Clear` is selected and added to the correct target.
@@ -28,10 +28,11 @@ To set up a partnership, reach out to developersupport@clearme.com. A `clientIde
 
 1. Navigate to [releases](https://github.com/clearsecureidentity/clear-ios-sdk/releases).
 2. Select the latest version.
-3. Download `Clear.xcframework`.
-4. Add the framework to your Xcode project. Be sure to check `Copy items if needed`.
-5. Ensure the framework is visible in `Build Phases`->`Link Binary With Libraries`.
-6. Add the framework to `Build Phases`->`Embed Frameworks`.
+3. Download `Clear.xcframework.zip`.
+4. Unzip the framework.
+5. Add the framework to your Xcode project. Be sure to check `Copy items if needed`.
+6. Ensure the framework is visible in `Build Phases`->`Link Binary With Libraries`.
+7. Add the framework to `Build Phases`->`Embed Frameworks`.
 
 ## Usage
 
