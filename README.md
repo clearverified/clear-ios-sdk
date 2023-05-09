@@ -51,7 +51,7 @@ import Clear
 * `scope`: A space-delimited string of all desired user properties.
 
 Optional Values:
-* `callbackScheme`: Defaults to the bundle identifier of the client application. In most cases this will not change.
+* `callbackScheme`: Defaults to the bundle identifier of the client application. In most cases this will not change. When supplying a custom value, `://auth` is appended automatically.
 
 ```swift
 // Initialize using an example scope.
