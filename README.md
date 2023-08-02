@@ -48,14 +48,15 @@ import Clear
 
 * `environment`: Set to `integration` while onboarding. Change to `production` after proper functionality is verified.
 * `clientIdentifier`: A client specific value given during onboarding.
-* `scope`: A space-delimited string of all desired user properties.
+* `scope`: A space-delimited string of all desired user properties
 
 Optional Values:
 * `callbackScheme`: Defaults to the bundle identifier of the client application. In most cases this will not change. When supplying a custom value, `://auth` is appended automatically.
+* `loginHint`: An optional user identifier (phone number or email) to pre-populate the web verification login screen
 
 ```swift
 // Initialize using an example scope.
-let configuration = CLEAR.Configuration(environment: .integration, clientIdentifier: "my-client-id", scope: "email given_name")
+let configuration = CLEAR.Configuration(environment: .integration, clientIdentifier: "my-client-id", scope: "email given_name", loginHint: "+15554844263")
 CLEAR.initialize(with: configuration)
 ```
 
