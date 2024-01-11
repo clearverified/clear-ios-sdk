@@ -53,10 +53,11 @@ import Clear
 Optional Values:
 * `callbackScheme`: Defaults to the bundle identifier of the client application. In most cases this will not change. When supplying a custom value, `://auth` is appended automatically.
 * `loginHint`: An optional user identifier (phone number or email) to pre-populate the web verification login screen
+* `forgetMember`: An optional boolean (not available in production) that indicates whether or not the member will be purged after data sharing is complete. (useful for testing new enrollment flow)
 
 ```swift
 // Initialize using an example scope.
-let configuration = CLEAR.Configuration(environment: .integration, clientIdentifier: "my-client-id", scope: "email given_name", loginHint: "+15554844263")
+let configuration = CLEAR.Configuration(environment: .integration, clientIdentifier: "my-client-id", scope: "email given_name", loginHint: "+15554844263", forgetMember: true)
 CLEAR.initialize(with: configuration)
 ```
 
